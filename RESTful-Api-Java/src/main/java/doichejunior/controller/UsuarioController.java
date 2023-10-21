@@ -15,7 +15,7 @@ import doichejunior.model.Usuario;
 import doichejunior.service.UsuarioService;
 
 @RestController
-
+@RequestMapping("/usuarios")
 public class UsuarioController {
 	
 	
