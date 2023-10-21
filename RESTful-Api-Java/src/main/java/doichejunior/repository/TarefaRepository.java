@@ -1,11 +1,10 @@
 package doichejunior.repository;
 
-import doichejunior.model.Usuario;
+import doichejunior.model.Tarefa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-
+public interface TarefaRepository extends JpaRepository<Tarefa, Long> {
 
 }

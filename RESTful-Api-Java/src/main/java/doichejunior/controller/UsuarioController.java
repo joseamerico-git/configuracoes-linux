@@ -1,24 +1,18 @@
 package doichejunior.controller;
 
-import java.net.URI;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import doichejunior.model.Usuario;
 import doichejunior.service.UsuarioService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
-	
-	
+
+
     private final UsuarioService usuarioService;
 
     public UsuarioController(UsuarioService userService) {
@@ -27,18 +21,36 @@ public class UsuarioController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> findById(@PathVariable Long id){
+    public ResponseEntity<Usuario> findById(@PathVariable Long id) {
         var user = usuarioService.findById(id);
         return ResponseEntity.ok(user);
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> create(@RequestBody Usuario userToCreate){
+    public ResponseEntity<Usuario> create(@RequestBody Usuario userToCreate) {
         var userCreated = usuarioService.create(userToCreate);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(userCreated.getId()).toUri();
         return ResponseEntity.created(location).body(userCreated);
     }
-    
+
+    @GetMapping
+    public Iterable<Usuario> findAll() {
+
+        return usuarioService.findAll();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
+        usuarioService.update(id, usuario);
+        return ResponseEntity.ok(usuario);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        usuarioService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
 }
