@@ -3,6 +3,7 @@ package doichejunior.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -39,6 +40,16 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleNotReadableException(DataIntegrityViolationException dataIntegrityViolation){
+        var message = "Violação de primary key ou campos unicos!";
+        logger.error(message,dataIntegrityViolation);
+
+        return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
+    }
+
+    //DataIntegrityViolationException
 
 
 
